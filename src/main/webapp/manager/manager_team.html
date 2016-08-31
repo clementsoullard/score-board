@@ -1,0 +1,54 @@
+<div class="container">
+
+<div class="alert alert-danger" ng-if="message&&error">
+  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+  {{message}}
+</div>
+<div class="alert alert-success" ng-if="message&&!error">
+  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+  {{message}}
+</div>
+
+<div ng-if="!message">
+<h2>Team</h2>
+	<form novalidate class="simple-form">
+		<div class="form-group row">
+			<label class="col-sm-2 col-form-label">Team name
+				</label>
+			<div class="col-sm-6">
+				<input size="100" type="text" ng-model="team.name" />
+			</div>
+			
+	</div>
+		<div class="form-group row">
+		
+		
+			<label class="col-sm-2 col-form-label">Team color
+				</label>
+			<div class="col-sm-6">
+			<input colorpicker type="text" ng-model="team.color" />
+			</div>
+			<span class="col-sm-2" ng-style="{'background-color': team.color, 'width': '50px','display': 'block'}">&nbsp;</span>
+	</div>
+		<div class="form-group row">
+		<span class="col-sm-5"></span>
+		<input type="submit" class="btn btn-info col-sm-2" ng-click="update(team)"
+				value="Save" />
+		</div>
+	</form>
+<hr>
+</div>
+<h2>Teams</h2>
+	<ul class="list-group" ng-repeat="team in teams">
+		<li class="list-group-item">
+			<div class="row">
+			<span class="col-sm-2" >
+			<strong >
+				{{team.name}} </strong> 
+			</span>
+			<span class="col-sm-2" ng-style="{'background-color': team.color, 'width': '50px','display': 'block'}">&nbsp;</span>
+			<a ng-click="remove(team.idr)"><i class="close pull-right">&times;</i></a>
+		
+		</div>
+		</li>
+	</ul>

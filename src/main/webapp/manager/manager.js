@@ -4,8 +4,8 @@ angular.module('managerApp.manager', ['ngRoute'])
 
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/manager', {
-    templateUrl: 'manager/manager_forfeit.html',
-    controller: 'forfeitCtrl'
+    templateUrl: 'manager/manager_team.html',
+    controller: 'teamCtrl'
   })
   .when('/manager-song', {
 	    templateUrl: 'manager/manager_song.html',
@@ -14,12 +14,12 @@ angular.module('managerApp.manager', ['ngRoute'])
   ;
 }])
 
-.controller('forfeitCtrl',  ['$scope','$http', function($scope,$http) {
+.controller('teamCtrl',  ['$scope','$http', function($scope,$http) {
 /**
  * Insert a new entry fonction
  */
- $scope.update = function (forfeit) {
-    $http.post('/event-tracker/ws-forfeit',forfeit).
+ $scope.update = function (team) {
+    $http.post('./rest/team',team).
         success(function(data) {
      	  	$scope.message='Thanks for submitting the idea.';
        	  	$scope.error=false;
@@ -35,16 +35,16 @@ angular.module('managerApp.manager', ['ngRoute'])
  * List the entries
  */		
 	 function list(){
-		 $http.get('/event-tracker/ws-forfeit').
+		 $http.get('./rest/team').
 	      success(function(data) {
 	        	console.log(JSON.stringify(data._embedded));
-	            $scope.forfeits = data._embedded.forfeit;
+	            $scope.teams = data._embedded.team;
 	        });
 		 }
 	/**
 	* List the entries
 	*/		
-	$scope.remove = function(id){ $http.delete('/event-tracker/ws-forfeit/'+id).
+	$scope.remove = function(id){ $http.delete('./rest/team/'+id).
 			success(function(data) {
 		  	$scope.message='The entry has been removed.';
 			list();

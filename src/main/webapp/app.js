@@ -3,13 +3,12 @@
 // Declare app level module which depends on views, and components
 angular.module('myApp', [
   'ngRoute',
-  'myApp.participation',
-  'myApp.view2',
+  'myApp.score',
   'myApp.version',
   'ng-fusioncharts'
 ]).
 config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
   $locationProvider.hashPrefix('!');
 
-  $routeProvider.otherwise({redirectTo: '/participation'});
+  $routeProvider.otherwise({redirectTo: '/score'});
 }]);

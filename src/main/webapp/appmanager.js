@@ -4,7 +4,8 @@
 angular.module('managerApp', [
   'ngRoute',
   'managerApp.manager',
-  'ng-fusioncharts'
+  'ng-fusioncharts',
+  'colorpicker.module'
 ]).
 config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
   $locationProvider.hashPrefix('!');

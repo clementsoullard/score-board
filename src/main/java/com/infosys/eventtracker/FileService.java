@@ -9,8 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class FileService {
 
-	static final Logger LOG = LoggerFactory.getLogger(TvCheckScheduler.class);
-
 	@Resource
 	PropertyManager propertyManager;
 

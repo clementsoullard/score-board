@@ -1,15 +1,15 @@
 ﻿'use strict';
 
-angular.module('myApp.participation', ['ngRoute'])
+angular.module('myApp.score', ['ngRoute'])
 
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/participation', {
-    templateUrl: 'participation/participation.html',
-    controller: 'participationCtrl'
+  $routeProvider.when('/score', {
+    templateUrl: 'score/score.html',
+    controller: 'scoreCtrl'
   });
 }])
 
-.controller('participationCtrl',  ['$scope','$http', function($scope,$http) {
+.controller('scoreCtrl',  ['$scope','$http', function($scope,$http) {
 
  
 /**
