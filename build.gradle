@@ -10,8 +10,6 @@ buildscript {
     }
 }
 
-
-
 apply plugin: 'java'
 apply plugin: 'eclipse-wtp'
 apply plugin: 'war'
@@ -19,7 +17,7 @@ apply plugin: 'spring-boot'
 apply plugin: 'org.hidetake.ssh'
 
 jar {
-    baseName = 'gs-rest-service'
+    baseName = 'score-trackere'
     version =  '0.1.0'
 }
 
