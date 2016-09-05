@@ -7,9 +7,9 @@ angular.module('managerApp.manager', ['ngRoute'])
     templateUrl: 'manager/manager_team.html',
     controller: 'teamCtrl'
   })
-  .when('/manager-song', {
-	    templateUrl: 'manager/manager_song.html',
-	    controller: 'songCtrl'
+  .when('/challenge', {
+	    templateUrl: 'manager/manager_challenge.html',
+	    controller: 'challengeCtrl'
 	  })
   ;
 }])
@@ -54,23 +54,23 @@ angular.module('managerApp.manager', ['ngRoute'])
 		list();		 
 }])
 
-.controller('songCtrl',  ['$scope','$http', function($scope,$http) {
+.controller('challengeCtrl',  ['$scope','$http', function($scope,$http) {
 
 	 
 	/**
 	 * Insert a new entry fonction
 	 */
 			
-	 $scope.update = function (user) {
-	    $http.post('/event-tracker/ws-song',user).
+	 $scope.update = function (challenge) {
+	    $http.post('./rest/challenge',challenge).
 	        success(function(data) {
-	     	  	$scope.message='Thanks for applying. You have been properly registred. You can also register husband/wife and children after closing this window.';
+	     	  	$scope.message='Thanks for submitting challenge.';
 	       	  	$scope.error=false;
 	            list();
 	        }).
 			error(function(data) {
 	     	  	$scope.message='An issue occured';
-	       	  	$scope.error=false;
+	       	  	$scope.error=true;
 			})
 			};
 				
@@ -78,21 +78,20 @@ angular.module('managerApp.manager', ['ngRoute'])
 	 * List the entries
 	 */		
 		 function list(){
-			 $http.get('/event-tracker/ws-song').
+			 $http.get('./rest/challenge').
 		      success(function(data) {
 		        	console.log(JSON.stringify(data._embedded));
-		            $scope.songs = data._embedded.song;
+		            $scope.challenges = data._embedded.challenge;
 		        });
 			 }
 		/**
 		* List the entries
 		*/		
-		$scope.remove = function(id){ $http.delete('/event-tracker/ws-song/'+id).
+		$scope.remove = function(id){ $http.delete('./rest/challenge/'+id).
 				success(function(data) {
 			  	$scope.message='The entry has been removed.';
 				list();
 			});
 		}
-			
 			list();		 
 	}]);

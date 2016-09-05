@@ -7,6 +7,15 @@
   padding: 0 0 0.5em;
 }
 
+.cellSize {
+  width: 140px;
+}
+
+.scoreTop {
+  width: 140px;
+  display: inline-block;
+}
+
 .menu:before {
   content: "[";
 }
