@@ -1,10 +1,33 @@
-<h2>Play a game</h2>
-<script type="text/javascript" src="../js/jscharts.js"></script>
- <div class="row">
- <div fusioncharts
-       width="600"
-       height="400"
-       type="column2d"
-       dataSource="{{myDataSource}}" class="text-center">
-    </div>
-</div>	
+<div class="container">
+<h2>{{challenge.name}}</h2>
+
+<div class="row">
+<div class="col-sm-3" >
+<div ng-repeat="team in teams">
+ <a ng-click="addTeam(team)"><span class="tag tag-primary" >
+{{team.name}}
+</span>
+</a>
+</div>
+</div>
+
+<div class="col-sm-9" >
+<table>
+<tr >
+<td ng-repeat="team in teamsInLice" class="teamName" ng-style="{'background-color': team.color }">
+{{team.name}}
+</td>
+</tr>
+
+<tr >
+<td ng-repeat="team in teamsInLice">
+<input class="scoreDisplay" type="text">
+</td>
+</tr>
+
+</table>
+
+</div>
+</div>
+
+</div>

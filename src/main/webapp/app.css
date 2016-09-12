@@ -7,11 +7,16 @@
   padding: 0 0 0.5em;
 }
 
+.mainScoreBoard {
+  padding: 20px;
+ }
+
 .cellSize {
   width: 140px;
 }
 
 .teamName {
+  width: 130px;
   font-size: 20pt;
   font-weight: bold;
 text-align: center;
@@ -22,6 +27,7 @@ text-align: center;
 }
 .scoreDisplay {
   font-size: 25pt;
+  width: 130px;
   text-align: center;
   font-weight: bold;
   background-color: white;

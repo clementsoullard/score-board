@@ -8,8 +8,8 @@ import org.springframework.stereotype.Repository;
 
 import com.clement.scoreboard.dto.Challenge;
 import com.clement.scoreboard.dto.Team;
-import com.clement.scoreboard.object.ChallengeSheet;
 import com.clement.scoreboard.object.ChallengeScore;
+import com.clement.scoreboard.object.ChallengeSheet;
 
 @Repository
 public class MatchDaoImpl {
