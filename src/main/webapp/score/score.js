@@ -24,7 +24,7 @@ angular.module('myApp.score', ['ngRoute'])
 	 function listChallenge(){
 		 $http.get('ws-match-sheet').
 	      success(function(data) {
-	        	console.log(JSON.stringify(data));
+	        //	console.log(JSON.stringify(data));
 	            $scope.challengesScore = data;
 	        });
 	 };

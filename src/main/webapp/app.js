@@ -4,7 +4,8 @@
 angular.module('myApp', [
   'ngRoute',
   'myApp.score',
-  'myApp.version',
+  'myApp.playgame',
+   'myApp.version',
   'ng-fusioncharts'
 ]).
 config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {

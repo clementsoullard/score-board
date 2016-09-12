@@ -11,6 +11,22 @@
   width: 140px;
 }
 
+.teamName {
+  font-size: 20pt;
+  font-weight: bold;
+text-align: center;
+}
+.gameName {
+  font-size: 16pt;
+  font-weight: bold;
+}
+.scoreDisplay {
+  font-size: 25pt;
+  text-align: center;
+  font-weight: bold;
+  background-color: white;
+}
+
 .scoreTop {
   width: 140px;
   display: inline-block;
