@@ -2,7 +2,9 @@ package com.clement.scoreboard.service;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +18,7 @@ import com.clement.scoreboard.dto.Match;
 import com.clement.scoreboard.dto.ScoreMatch;
 import com.clement.scoreboard.dto.Team;
 import com.clement.scoreboard.object.ChallengeScore;
-import com.clement.scoreboard.object.ChallengeSheet;
+import com.clement.scoreboard.object.ChallengeScoreLine;
 import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Collections;
 
 @Repository
@@ -39,25 +41,72 @@ public class MatchDaoImpl {
 	 * 
 	 * @return
 	 */
-	public List<ChallengeSheet> getChallengeSheets() {
-		List<ChallengeSheet> matchEntries = new ArrayList<>();
+	public List<ChallengeScoreLine> getChallengeSheets() {
+		Map<String, Integer> totalScores = new HashMap<String, Integer>();
+		List<ChallengeScoreLine> matchEntries = new ArrayList<>();
 		List<Challenge> challenges = challengeRepository.findAll();
+		List<Team> teams = teamRepository.findAll();
 		for (Challenge challenge : challenges) {
-			ChallengeSheet challengeSheet = new ChallengeSheet();
+			ChallengeScoreLine challengeSheet = new ChallengeScoreLine();
 			challengeSheet.setChallenge(challenge);
-			List<Team> teams = teamRepository.findAll();
 			for (Team team : teams) {
 				ChallengeScore challengeScore = new ChallengeScore(team);
 				Integer score = challenge.getScoreForTeam(team);
 				challengeScore.setPoint(score);
 				challengeSheet.addChallengeScore(challengeScore);
-
+				Integer totalscore = totalScores.get(team.getIdr());
+				if (totalscore == null) {
+					totalscore = 0;
+				}
+				totalscore += score;
+				totalScores.put(team.getIdr(), totalscore);
 			}
 			matchEntries.add(challengeSheet);
 		}
-
+		/**
+		 * This is the line for the total score.
+		 */
+		ChallengeScoreLine challengeScoreLine = new ChallengeScoreLine();
+		for (Team team : teams) {
+			Challenge challenge = new Challenge();
+			challenge.setName("Total");
+			challengeScoreLine.setTotal(true);
+			challengeScoreLine.setChallenge(challenge);
+			ChallengeScore challengeScore = new ChallengeScore(team);
+			Integer score = totalScores.get(team.getIdr());
+			challengeScore.setPoint(score);
+			challengeScoreLine.addChallengeScore(challengeScore);
+			Integer totalscore = totalScores.get(team.getIdr());
+			if (totalscore == null) {
+				totalscore = 0;
+			}
+			totalscore += score;
+			totalScores.put(team.getIdr(), totalscore);
+		}
+		matchEntries.add(challengeScoreLine);
 		return matchEntries;
 
+	}
+
+	/**
+	 * The list of the matches that are started
+	 * 
+	 * @param challengeId
+	 * @return
+	 */
+	public Match findOpenMatch(String challengeId) {
+		try {
+			BasicQuery query = new BasicQuery("{$and: [ {close: {$ne: true}},{challengeId:\"" + challengeId + "\"}]}");
+			List<Match> matchs = mongoTemplate.find(query, Match.class);
+			if (matchs.size() == 1) {
+				return matchs.get(0);
+			} else {
+				return null;
+			}
+		} catch (Exception e) {
+			LOG.error(e.getMessage(), e);
+		}
+		return null;
 	}
 
 	/**
@@ -66,15 +115,11 @@ public class MatchDaoImpl {
 	 * @param id
 	 * @return
 	 */
-	public Match findMatchByChallengeIdAndClose(String id) {
+	public List<Match> findCloseMatch(String id) {
 		try {
-			BasicQuery query = new BasicQuery("{$and: [ {close: {$ne: true}},{challengeId:\"" + id + "\"}]}");
+			BasicQuery query = new BasicQuery("{$and: [ {close: true},{challengeId:\"" + id + "\"}]}");
 			List<Match> matchs = mongoTemplate.find(query, Match.class);
-			if (matchs.size() == 1) {
-				return matchs.get(0);
-			} else {
-				return null;
-			}
+			return matchs;
 		} catch (Exception e) {
 			LOG.error(e.getMessage(), e);
 		}

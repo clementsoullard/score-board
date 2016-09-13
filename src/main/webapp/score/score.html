@@ -12,11 +12,15 @@
 </tr>
 </thead>
 <tbody ng-repeat="challengeScore in challengesScore">
-<tr    >
+<tr>
 	<th  class="cellSize  gameName">	
-	<a href="#!/playgame/challenge/{{challengeScore.challenge.idr}}">	
+
+	<a ng-if="!challengeScore.total" href="#!/playgame/challenge/{{challengeScore.challenge.idr}}">	
     {{challengeScore.challenge.name}}
     </a>
+    <span ng-if="challengeScore.total">
+    {{challengeScore.challenge.name}}
+    </span>
 	</th>
 	<td  class="cellSize scoreDisplay" ng-repeat-start="challengeScore1 in challengeScore.challengeScores">		
      {{challengeScore1.point}}

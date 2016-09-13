@@ -14,6 +14,7 @@ angular.module('myApp.playgame', ['ngRoute'])
 	var teamsInLice=[];
 	$scope.teamsInLice=teamsInLice;
 	var matchSelected;
+	var matchPassed;
 	/**
 	 * List the teams
 	 */		
@@ -90,10 +91,12 @@ angular.module('myApp.playgame', ['ngRoute'])
 			matchSelected.close=true;
 			saveMatch(matchSelected);
 			getMatch(challengeId);
+			teamsInLice=[];
+			$scope.teamsInLice=teamsInLice;
 		 };
 
 		 /**
-		  * Get the information about the challenge
+		  * Get the match that is open for the challengeId, create one if no mathc is open.
 		  */
 		 function getMatch(challengeId){
 			 // console.log("Finding matches1 for challenge "+challengeId);
@@ -117,7 +120,25 @@ angular.module('myApp.playgame', ['ngRoute'])
 		    	  
 		      });
 		 };
+
 		 
+		 /**
+		  * The closed match
+		  */
+		 function getClosedMatch(challengeId){
+			 // console.log("Finding matches1 for challenge "+challengeId);
+			$http.get('closed-match?id='+challengeId).
+		      success(function(data) {
+		    // console.log("Finding matches for challenge "+challengeId);
+		      var closedMatches=data;
+		      console.log("Closed matches found "+ closedMatches);
+			  $scope.closedMatches = closedMatches;
+
+			  matchPassed=closedMatches;
+			  $scope.matchPassed=matchPassed;
+		    	  
+		      });
+		 };
 /**
  * Getting the challenge id
  */		 
@@ -138,6 +159,7 @@ angular.module('myApp.playgame', ['ngRoute'])
 		 }
 		 
 		 getMatch(challengeId);
+		 getClosedMatch(challengeId);
 		 
  
 }]);
