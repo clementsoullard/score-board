@@ -18,6 +18,8 @@ public class Match {
 
 	private String challengeId;
 
+	private Boolean close;
+
 	public String getIdr() {
 		return id;
 	}
@@ -42,6 +44,12 @@ public class Match {
 		this.challengeId = challengeId;
 	}
 
+	public Boolean getClose() {
+		return close;
+	}
 
+	public void setClose(Boolean close) {
+		this.close = close;
+	}
 
 }

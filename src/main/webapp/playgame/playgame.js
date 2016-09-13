@@ -52,16 +52,15 @@ angular.module('myApp.playgame', ['ngRoute'])
 		  * Get the information about the challenge
 		  */
 		 function createMatch(challengeId){
-			 var match={'challengeId': challengeId};
+			 var match={'challengeId': challengeId,'close': false};
 			  console.log("Creating a match ");
-						 
 			 $http.post('rest/match',match).
 		      success(function(data) {
-		//      console.log(JSON.stringify(data));
+		      match=data;
+		      console.log(JSON.stringify(data));
 		      teamsInLice=[];
 		      $scope.teamsInLice=teamsInLice;
 		      matchSelected=match;
-		      
 		      });
 		 };
 
@@ -72,7 +71,7 @@ angular.module('myApp.playgame', ['ngRoute'])
 			  console.log("Saving a match ");
 			 $http.post('rest/match',match).
 		      success(function(data) {
-		  //    console.log(JSON.stringify(data));
+		     console.log(JSON.stringify(data));
 		      });
 		 };
 		 /**
@@ -86,19 +85,29 @@ angular.module('myApp.playgame', ['ngRoute'])
 		 /**
 		  * Get the information about the challenge
 		  */
+		 $scope.closeMatch = function (){
+			console.log("Closing the match");
+			matchSelected.close=true;
+			saveMatch(matchSelected);
+			getMatch(challengeId);
+		 };
+
+		 /**
+		  * Get the information about the challenge
+		  */
 		 function getMatch(challengeId){
 			 // console.log("Finding matches1 for challenge "+challengeId);
-			$http.get('rest/match/search/findMatchByChallengeId?id='+challengeId).
+			$http.get('open-match?id='+challengeId).
 		      success(function(data) {
 		    // console.log("Finding matches for challenge "+challengeId);
-		      var matches=data._embedded.match;
-		     // console.log("Matches found "+ JSON.stringify(matches));
-			  $scope.matches = matches;
+		      var match=data;
+		      console.log("Matches found "+ match);
+			  $scope.matches = match;
 
-			  if(matches.length==0){
+			  if(match==""){
 		    		  createMatch(challengeId);
 			  }else{
-				  matchSelected=matches[0];
+				  matchSelected=match;
 				  teamsInLice=matchSelected.scores;
 				  if(teamsInLice==null){
 					  teamsInLice=[];
@@ -126,7 +135,6 @@ angular.module('myApp.playgame', ['ngRoute'])
 			 console.log("Team en lice= "+teamsInLice);
 			 $scope.teamsInLice=teamsInLice;
 			 matchSelected.scores=teamsInLice;
-			 saveMatch(matchSelected);
 		 }
 		 
 		 getMatch(challengeId);

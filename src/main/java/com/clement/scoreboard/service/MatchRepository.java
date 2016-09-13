@@ -11,5 +11,5 @@ import com.clement.scoreboard.dto.Match;
 
 @RepositoryRestResource(collectionResourceRel = "match", path = "match")
 public interface MatchRepository extends MongoRepository<Match, String> {
-	List<Match> findMatchByChallengeId(@Param("id")  String id);
+	List<Match> findMatchByChallengeId(@Param("id") String id);
 }
