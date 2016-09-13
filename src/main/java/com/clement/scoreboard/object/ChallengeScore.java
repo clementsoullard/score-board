@@ -3,13 +3,14 @@ package com.clement.scoreboard.object;
 import com.clement.scoreboard.dto.Team;
 
 public class ChallengeScore {
-	Team team;
+
+	private Team team;
+
+	private Integer point = 0;
 
 	public ChallengeScore(Team team) {
 		this.team = team;
 	}
-
-	Integer point = 0;
 
 	public Integer getPoint() {
 		return point;

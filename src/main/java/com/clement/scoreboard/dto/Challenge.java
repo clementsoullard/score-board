@@ -1,5 +1,7 @@
 package com.clement.scoreboard.dto;
 
+import java.util.List;
+
 import org.springframework.data.annotation.Id;
 
 /**
@@ -14,8 +16,8 @@ public class Challenge {
 
 	private String name;
 
-	
-	
+	private List<ScoreMatch> scores;
+
 	public String getId() {
 		return id;
 	}
@@ -38,6 +40,25 @@ public class Challenge {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public List<ScoreMatch> getScores() {
+		return scores;
+	}
+
+	public void setScores(List<ScoreMatch> scores) {
+		this.scores = scores;
+	}
+
+	public Integer getScoreForTeam(Team team) {
+		if (scores != null) {
+			for (ScoreMatch scoreMatch : scores) {
+				if (scoreMatch.getIdr().equals(team.getIdr())) {
+					return scoreMatch.getScore();
+				}
+			}
+		}
+		return 0;
 	}
 
 }

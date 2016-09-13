@@ -1,7 +1,7 @@
 <div class="mainScoreBoard">
 <table>
 <thead>
-<tr   >
+<tr>
 		<td class="cellSize">
 		</td>
 		<td  class="cellSize  teamName" ng-repeat-start="team in teams" ng-style="{'background-color': team.color }">		
@@ -17,9 +17,8 @@
 	<a href="#!/playgame/challenge/{{challengeScore.challenge.idr}}">	
     {{challengeScore.challenge.name}}
     </a>
-		</th>
+	</th>
 	<td  class="cellSize scoreDisplay" ng-repeat-start="challengeScore1 in challengeScore.challengeScores">		
-     
      {{challengeScore1.point}}
 	</td>	
 	<td ng-repeat-end>

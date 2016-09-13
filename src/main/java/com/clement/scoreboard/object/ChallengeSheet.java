@@ -11,7 +11,6 @@ public class ChallengeSheet {
 	private java.util.List<ChallengeScore> challengeScores;
 
 	public ChallengeSheet() {
-
 		challengeScores = new ArrayList<ChallengeScore>();
 	}
 
