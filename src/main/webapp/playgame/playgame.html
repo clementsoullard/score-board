@@ -12,21 +12,24 @@
 </div>
 
 <div class="col-sm-9" >
+<form >
+
 <table>
-<tr >
-<td ng-repeat="team in teamsInLice" class="teamName" ng-style="{'background-color': team.color }">
-{{team.name}}
-</td>
+
+<tr>
+	<td ng-repeat="team in teamsInLice" class="teamName" ng-style="{'background-color': team.color }">
+	{{team.name}}
+	</td>
 </tr>
 
-<tr >
-<td ng-repeat="team in teamsInLice">
-<input class="scoreDisplay" type="text">
-</td>
+<tr>
+	<td ng-repeat="team in teamsInLice">
+		<input  type="text"  class="scoreDisplay" id="{{team.idr}}" ng-model="team.score" ng-blur="saveScore()" />
+	</td>
 </tr>
 
 </table>
-
+</form>
 </div>
 </div>
 

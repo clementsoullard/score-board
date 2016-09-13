@@ -57,9 +57,14 @@ angular.module('myApp.playgame', ['ngRoute'])
 						 
 			 $http.post('rest/match',match).
 		      success(function(data) {
-		      console.log(JSON.stringify(data));
+		//      console.log(JSON.stringify(data));
+		      teamsInLice=[];
+		      $scope.teamsInLice=teamsInLice;
+		      matchSelected=match;
+		      
 		      });
 		 };
+
 		 /**
 		  * Get the information about the challenge
 		  */
@@ -67,26 +72,38 @@ angular.module('myApp.playgame', ['ngRoute'])
 			  console.log("Saving a match ");
 			 $http.post('rest/match',match).
 		      success(function(data) {
-		      console.log(JSON.stringify(data));
+		  //    console.log(JSON.stringify(data));
 		      });
+		 };
+		 /**
+		  * Get the information about the challenge
+		  */
+		 $scope.saveScore = function (){
+			console.log("Saving the current score");
+			saveMatch(matchSelected);
 		 };
 
 		 /**
 		  * Get the information about the challenge
 		  */
 		 function getMatch(challengeId){
-			  console.log("Finding matches1 for challenge "+challengeId);
+			 // console.log("Finding matches1 for challenge "+challengeId);
 			$http.get('rest/match/search/findMatchByChallengeId?id='+challengeId).
 		      success(function(data) {
-		     console.log("Finding matches for challenge "+challengeId);
+		    // console.log("Finding matches for challenge "+challengeId);
 		      var matches=data._embedded.match;
-		      console.log("Matches found "+ JSON.stringify(matches));
+		     // console.log("Matches found "+ JSON.stringify(matches));
 			  $scope.matches = matches;
 
 			  if(matches.length==0){
 		    		  createMatch(challengeId);
 			  }else{
 				  matchSelected=matches[0];
+				  teamsInLice=matchSelected.scores;
+				  if(teamsInLice==null){
+					  teamsInLice=[];
+				  }
+				  $scope.teamsInLice=teamsInLice;
 			  }
 		    	  
 		      });
@@ -112,8 +129,6 @@ angular.module('myApp.playgame', ['ngRoute'])
 			 saveMatch(matchSelected);
 		 }
 		 
-		 
-		 console.log("Finding matches2 for challenge "+challengeId);
 		 getMatch(challengeId);
 		 
  
