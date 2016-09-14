@@ -21,6 +21,17 @@
   font-weight: bold;
 text-align: center;
 }
+.matchPassed{
+	 border-style: solid;
+    border-width: 2px;
+}
+.matchPassed-score{
+	width: 40px;
+    background-color: #FFFFFF;
+font-weight: bold;
+text-align: center;
+}
+
 .gameName {
   font-size: 16pt;
   font-weight: bold;

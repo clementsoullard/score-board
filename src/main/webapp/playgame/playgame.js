@@ -93,7 +93,26 @@ angular.module('myApp.playgame', ['ngRoute'])
 			getMatch(challengeId);
 			teamsInLice=[];
 			$scope.teamsInLice=teamsInLice;
+			getClosedMatch();
 		 };
+		 
+		 /**
+		  * Removing a team from the team en lice
+		  */
+		 $scope.removeTeam = function(teamId){
+			 console.log("Remove team "+teamId);
+		   var indexToRemove=-1;
+			 for(var i in teamsInLice){
+			 var team=teamsInLice[i];
+			 console.log("Examinons "+ JSON.stringify(team) +" pour "+ teamId);
+             if(teamId==team.idr){
+            	 indexToRemove=i;
+            }
+			}
+			 if(indexToRemove>-1){
+			 teamsInLice.splice(indexToRemove,1);
+			 }
+			 };
 
 		 /**
 		  * Get the match that is open for the challengeId, create one if no mathc is open.
