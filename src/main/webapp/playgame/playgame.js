@@ -36,64 +36,53 @@ angular.module('myApp.playgame', ['ngRoute'])
 		      });
 		 };
 		 
+			 
 		 /**
 		  * Get the information about the challenge
 		  */
 		 function createMatch(challengeId){
-			 var match={'challengeId': challengeId};
-			 console.log("Creating a match ");
-			matchSelected=match;			 
-			 $http.post('rest/match',match).
-		      success(function(data) {
-		      console.log(JSON.stringify(data));
-		      });
-		 };
-		 
-		 /**
-		  * Get the information about the challenge
-		  */
-		 function createMatch(challengeId){
-			 var match={'challengeId': challengeId,'close': false};
-			  console.log("Creating a match ");
-			 $http.post('rest/match',match).
-		      success(function(data) {
-		      match=data;
-		      console.log(JSON.stringify(data));
-		      teamsInLice=[];
-		      $scope.teamsInLice=teamsInLice;
-		      matchSelected=match;
-		      });
-		 };
+			 matchSelected={'challengeId': $routeParams.challengeId,'close': false};
+			 console.log("Creating a match "+$routeParams.challengeId);
+		     teamsInLice=[];
+		     $scope.teamsInLice=teamsInLice;
+			 };
 
-		 /**
-		  * Get the information about the challenge
-		  */
-		 function saveMatch(match){
-			  console.log("Saving a match ");
-			 $http.post('rest/match',match).
-		      success(function(data) {
-		     console.log(JSON.stringify(data));
-		      });
-		 };
-		 /**
-		  * Get the information about the challenge
-		  */
-		 $scope.saveScore = function (){
-			console.log("Saving the current score");
-			saveMatch(matchSelected);
-		 };
+			 /**
+			  * Get the information about the challenge
+			  */
+			 function saveMatch (){
+				 console.log("Saving a match ");
+				 $http.post('save-match' , matchSelected).
+			      success(function(data) {
+			    	  matchSelected=data;
+			    	  teamsInLice=matchSelected.scores;
+					  if(teamsInLice==null){
+						  teamsInLice=[];
+					  }
+					  $scope.teamsInLice=teamsInLice;
+			    	console.log(JSON.stringify(data));
+			      });
+			 };
+			 /**
+			  * Get the information about the challenge
+			  */
+				 $scope.saveScore =function (){
+					 saveMatch();
+					 
+				 };
+
 
 		 /**
 		  * Get the information about the challenge
 		  */
 		 $scope.closeMatch = function (){
-			console.log("Closing the match");
-			matchSelected.close=true;
-			saveMatch(matchSelected);
-			getMatch(challengeId);
-			teamsInLice=[];
-			$scope.teamsInLice=teamsInLice;
-			getClosedMatch();
+				console.log("Closing the match");
+				$http.get('close-match?id='+matchSelected.idr).
+			      success(function(data) {
+			    //	  createMatch();
+			    	  getClosedMatch();
+			    	  getMatch();
+			    });
 		 };
 		 
 		 /**
@@ -112,30 +101,55 @@ angular.module('myApp.playgame', ['ngRoute'])
 			 if(indexToRemove>-1){
 			 teamsInLice.splice(indexToRemove,1);
 			 }
+			};
+
+			/**
+			  * Reactivate match
+			  */
+			 $scope.reactivateMatch = function(matchIdToReactivate){
+				 var idMatchToClose=matchSelected.idr;
+				 var url;
+				 if(idMatchToClose!=undefined){
+					 url="reactivate-match?idReactivate="+matchIdToReactivate+"&idClose="+idMatchToClose;
+				 }
+				 else{
+					 url="reactivate-match?idReactivate="+matchIdToReactivate;
+				 }
+				 console.log("Reactivate match "+url);
+					
+				 $http.get(url).
+				      success(function(data) {
+						  matchSelected=data;
+						  console.log("Match retour "+JSON.stringify(data));
+						  teamsInLice=matchSelected.scores;
+						  if(teamsInLice==null){
+							  teamsInLice=[];
+						  }
+						  $scope.teamsInLice=teamsInLice;
+				    	  getClosedMatch();
+
+				      });							 
 			 };
 
 		 /**
-		  * Get the match that is open for the challengeId, create one if no mathc is open.
+		  * Get the match that is open for the challengeId, create one if no match is open.
 		  */
 		 function getMatch(challengeId){
 			 // console.log("Finding matches1 for challenge "+challengeId);
 			$http.get('open-match?id='+challengeId).
 		      success(function(data) {
 		    // console.log("Finding matches for challenge "+challengeId);
-		      var match=data;
-		      console.log("Matches found "+ match);
-			  $scope.matches = match;
-
-			  if(match==""){
+			  if(data=="" ){
 		    		  createMatch(challengeId);
 			  }else{
-				  matchSelected=match;
+				  matchSelected=data;
 				  teamsInLice=matchSelected.scores;
 				  if(teamsInLice==null){
 					  teamsInLice=[];
 				  }
 				  $scope.teamsInLice=teamsInLice;
 			  }
+			  console.log("MatchSelected " + JSON.stringify(matchSelected));
 		    	  
 		      });
 		 };
@@ -145,8 +159,8 @@ angular.module('myApp.playgame', ['ngRoute'])
 		  * The closed match
 		  */
 		 function getClosedMatch(challengeId){
-			 // console.log("Finding matches1 for challenge "+challengeId);
-			$http.get('closed-match?id='+challengeId).
+			 console.log("Closed matches for challenge "+challengeId);
+			$http.get('closed-match?id='+$routeParams.challengeId).
 		      success(function(data) {
 		    // console.log("Finding matches for challenge "+challengeId);
 		      var closedMatches=data;
@@ -158,9 +172,10 @@ angular.module('myApp.playgame', ['ngRoute'])
 		    	  
 		      });
 		 };
-/**
- * Getting the challenge id
- */		 
+		 
+		 /**
+		  * Getting the challenge id
+		  */		 
 		 var challengeId=$routeParams.challengeId
 		 console.log("Challenge Id = "+challengeId);
 		 listTeam();	

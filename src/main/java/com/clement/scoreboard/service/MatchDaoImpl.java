@@ -94,7 +94,7 @@ public class MatchDaoImpl {
 	 * @param challengeId
 	 * @return
 	 */
-	public Match findOpenMatch(String challengeId) {
+	public Match findOpenMatchForChallengeId(String challengeId) {
 		try {
 			BasicQuery query = new BasicQuery("{$and: [ {close: {$ne: true}},{challengeId:\"" + challengeId + "\"}]}");
 			List<Match> matchs = mongoTemplate.find(query, Match.class);
@@ -132,7 +132,7 @@ public class MatchDaoImpl {
 	 * @param id
 	 * @return
 	 */
-	public Match closeMatch(String id) {
+	public Match evaluateResult(String id) {
 		try {
 			Match match = matchRepository.findOne(id);
 			List<ScoreMatch> scoreMatchs = match.getScores();
@@ -199,6 +199,58 @@ public class MatchDaoImpl {
 			LOG.error(e.getMessage(), e);
 		}
 		return null;
+	}
+
+	/**
+	 * This reactivate a match
+	 * 
+	 * @param matchToActivateId
+	 */
+	public Match reactivateMatch(String matchToActivateId, String matchToCloseId) {
+		Match match = matchRepository.findOne(matchToActivateId);
+		String challengeId = match.getChallengeId();
+		LOG.debug("Activating match "+matchToActivateId); 
+		match.setClose(false);
+		matchRepository.save(match);
+		if (matchToCloseId != null) {
+			LOG.debug("Closing match "+matchToCloseId); 
+			match = matchRepository.findOne(matchToCloseId);
+			LOG.debug("Closing match "+matchToCloseId); 
+			match.setClose(true);
+			matchRepository.save(match);
+		}
+		else{
+			LOG.debug("There is no match to close"); 
+		}
+		match = findOpenMatchForChallengeId(challengeId);
+	return match;
+	}
+
+	/**
+	 * This reactivate a match
+	 * 
+	 * @param matchId
+	 */
+	public Match closeMatch(String matchId) {
+		Match match = matchRepository.findOne(matchId);
+		match.setClose(true);
+		matchRepository.save(match);
+		return findOpenMatchForChallengeId(match.getChallengeId());
+	}
+
+	/**
+	 * A match is only saved if there are some score (otherwise it does not make
+	 * sense)
+	 * 
+	 * @param match
+	 * @return
+	 */
+	public Match saveMatch(Match match) {
+		if (match.getScores() != null && match.getScores().size() > 0) {
+			LOG.debug("Save Match " + match.getIdr());
+			return matchRepository.save(match);
+		}
+		return match;
 	}
 
 }
