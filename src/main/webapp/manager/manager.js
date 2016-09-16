@@ -42,8 +42,8 @@ angular.module('managerApp.manager', ['ngRoute'])
 	        });
 		 }
 	/**
-	* List the entries
-	*/		
+	 * List the entries
+	 */		
 	$scope.remove = function(id){ $http.delete('./rest/team/'+id).
 			success(function(data) {
 		  	$scope.message='The entry has been removed.';
@@ -74,19 +74,28 @@ angular.module('managerApp.manager', ['ngRoute'])
 			})
 			};
 				
-	/**
-	 * List the entries
-	 */		
-		 function list(){
-			 $http.get('./rest/challenge').
-		      success(function(data) {
-		        	console.log(JSON.stringify(data._embedded));
-		            $scope.challenges = data._embedded.challenge;
-		        });
-			 }
+			/**
+			 * List the entries
+			 */		
+				 function list(){
+					 $http.get('./rest/challenge').
+				      success(function(data) {
+				        	console.log(JSON.stringify(data._embedded));
+				            $scope.challenges = data._embedded.challenge;
+				        });
+					 }
 		/**
 		* List the entries
 		*/		
+				$scope.resetScore= function (){
+					 $http.get('reset-score').
+					      success(function(data) {
+				        	console.log("Reset des scores");
+					});
+				}
+		/**
+		 * List the entries
+		 */		
 		$scope.remove = function(id){ $http.delete('./rest/challenge/'+id).
 				success(function(data) {
 			  	$scope.message='The entry has been removed.';

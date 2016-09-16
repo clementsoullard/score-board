@@ -13,13 +13,22 @@
 
 .cellSize {
   width: 140px;
+  border-right-style: solid;
+  border-right-witdh: 10px;
 }
 
+.totalLine{
+	border-top-style: solid;
+	border-top-witdh: 10px;
+}
 .teamName {
   width: 130px;
   font-size: 20pt;
   font-weight: bold;
-text-align: center;
+ text-align: center;
+ 	border-bottom-style: solid;
+border-bottom-witdh: 10px;
+
 }
 .matchPassed{
 	 border-style: solid;

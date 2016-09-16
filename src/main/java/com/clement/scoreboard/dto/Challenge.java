@@ -61,4 +61,15 @@ public class Challenge {
 		return 0;
 	}
 
+	public Integer getRankingPointForTeam(Team team) {
+		if (scores != null) {
+			for (ScoreMatch scoreMatch : scores) {
+				if (scoreMatch.getIdr().equals(team.getIdr())) {
+					return scoreMatch.getScoreRank();
+				}
+			}
+		}
+		return 0;
+	}
+
 }

@@ -22,7 +22,6 @@
 		<h2>{{challenge.name}}</h2>
 		<div class="row">
 			<div ng-repeat="match1 in matchPassed" class="col-sm-3">
-			{{match1.idr}}
 				<span ng-click="reactivateMatch(match1.idr)"
 					class="pull-right glyphicon glyphicon-retweet"></span>
 				<table class="matchPassed">
@@ -68,7 +67,13 @@
 						<span class="col-sm-5"></span> <input type="submit"
 							class="btn btn-info col-sm-2" ng-click="closeMatch()"
 							value="End the match" />
+				<!-- 	
+					<span class="col-sm-5"></span> <input type="submit"
+							class="btn btn-info col-sm-2" ng-click="createAnotherMatch()"
+							value="Match" />
+					 -->
 					</div>
+
 
 				</form>
 			</div>

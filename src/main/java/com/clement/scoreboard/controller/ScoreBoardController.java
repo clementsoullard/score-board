@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.clement.scoreboard.dto.Match;
 import com.clement.scoreboard.object.ChallengeScoreLine;
+import com.clement.scoreboard.service.ChallengeDaoImpl;
 import com.clement.scoreboard.service.MatchDaoImpl;
 
 /**
@@ -27,6 +28,9 @@ public class ScoreBoardController {
 
 	@Resource
 	private MatchDaoImpl matchDaoImpl;
+
+	@Resource
+	private ChallengeDaoImpl challengeDaoImpl;
 
 	/**
 	 * 
@@ -61,7 +65,20 @@ public class ScoreBoardController {
 	public Match closeMatch(@RequestParam("id") String matchId) throws Exception {
 		LOG.debug("Closing the match " + matchId);
 		Match match = matchDaoImpl.closeMatch(matchId);
+		matchDaoImpl.evaluateResult(matchId);
 		return match;
+	}
+
+	/**
+	 * 
+	 * @param matchId
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("/reset-score")
+	public void resetScores() throws Exception {
+		LOG.debug("Reset the scores ");
+		challengeDaoImpl.resetScore();
 	}
 
 	/**
@@ -86,7 +103,7 @@ public class ScoreBoardController {
 	 */
 	@RequestMapping("/reactivate-match")
 	public Match reactivateMatch(@RequestParam("idReactivate") String matchIdToReactivate,
-			@RequestParam(required=false,name="idClose")  String matchIdToClose) throws Exception {
+			@RequestParam(required = false, name = "idClose") String matchIdToClose) throws Exception {
 		return matchDaoImpl.reactivateMatch(matchIdToReactivate, matchIdToClose);
 	}
 
@@ -98,7 +115,7 @@ public class ScoreBoardController {
 	 */
 	@RequestMapping("/save-match")
 	public Match saveMatch(@RequestBody Match match) throws Exception {
-	return matchDaoImpl.saveMatch(match);
+		return matchDaoImpl.saveMatch(match);
 	}
 
 }

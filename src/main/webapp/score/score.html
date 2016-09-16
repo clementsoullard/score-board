@@ -4,29 +4,36 @@
 <tr>
 		<td class="cellSize">
 		</td>
-		<td  class="cellSize  teamName" ng-repeat-start="team in teams" ng-style="{'background-color': team.color }">		
+		<td  class="cellSize  teamName" ng-repeat="team in teams" ng-style="{'background-color': team.color }">		
     	{{team.name}}
-		</td>
-		<td ng-repeat-end>
 		</td>
 </tr>
 </thead>
 <tbody ng-repeat="challengeScore in challengesScore">
 <tr>
-	<th  class="cellSize  gameName">	
+	<th  class="cellSize gameName">	
 
 	<a ng-if="!challengeScore.total" href="#!/playgame/challenge/{{challengeScore.challenge.idr}}">	
     {{challengeScore.challenge.name}}
     </a>
+    
+    
     <span ng-if="challengeScore.total">
     {{challengeScore.challenge.name}}
     </span>
 	</th>
-	<td  class="cellSize scoreDisplay" ng-repeat-start="challengeScore1 in challengeScore.challengeScores">		
+
+	<td  ng-if="!challengeScore.total" class="cellSize scoreDisplay" ng-repeat="challengeScore1 in challengeScore.challengeScores">		
      {{challengeScore1.point}}
 	</td>	
-	<td ng-repeat-end>
-	</td>
+
+	<td  ng-if="challengeScore.total"  class="cellSize scoreDisplay totalLine" ng-repeat="challengeScore1 in challengeScore.challengeScores">		
+     <div ng-style="{'background-color': challengeScore1.color}">
+     {{challengeScore1.point}}
+     </div>
+	</td>	
+	
+	
 </tr >
 </tbody>
 

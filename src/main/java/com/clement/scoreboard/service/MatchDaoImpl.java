@@ -52,7 +52,10 @@ public class MatchDaoImpl {
 			for (Team team : teams) {
 				ChallengeScore challengeScore = new ChallengeScore(team);
 				Integer score = challenge.getScoreForTeam(team);
+				Integer scoreRank = challenge.getRankingPointForTeam(team);
 				challengeScore.setPoint(score);
+				challengeScore.setPointRank(scoreRank);
+
 				challengeSheet.addChallengeScore(challengeScore);
 				Integer totalscore = totalScores.get(team.getIdr());
 				if (totalscore == null) {
@@ -132,30 +135,32 @@ public class MatchDaoImpl {
 	 * @param id
 	 * @return
 	 */
-	public Match evaluateResult(String id) {
+	public Match evaluateResult(String matchId) {
 		try {
-			Match match = matchRepository.findOne(id);
+			Match match = matchRepository.findOne(matchId);
 			List<ScoreMatch> scoreMatchs = match.getScores();
 			java.util.Collections.sort(scoreMatchs, new Comparator<ScoreMatch>() {
 				@Override
 				public int compare(ScoreMatch arg0, ScoreMatch arg1) {
-					return arg0.getScore() - arg1.getScore();
+					return arg1.getScore() - arg0.getScore();
 				}
 			});
 			Challenge challenge = challengeRepository.findOne(match.getChallengeId());
-			challenge.setScores(new ArrayList<>());
+			if (challenge.getScores() == null) {
+				challenge.setScores(new ArrayList<>());
+			}
 			/**
 			 * Pour les matchs à deux participants
 			 */
-			if (scoreMatchs.size() == 2) {
+			if (scoreMatchs.size() <= 2) {
 				int i = 0;
 				for (ScoreMatch scoreMatch : scoreMatchs) {
 					switch (i) {
 					case 0:
-						scoreMatch.setScore(5);
+						scoreMatch.setScoreRank(5);
 						break;
 					case 1:
-						scoreMatch.setScore(0);
+						scoreMatch.setScoreRank(0);
 						break;
 
 					default:
@@ -164,21 +169,21 @@ public class MatchDaoImpl {
 					challenge.getScores().add(scoreMatch);
 					i++;
 				}
-			} else if (scoreMatchs.size() == 4) {
+			} else if (scoreMatchs.size() <= 4) {
 				int i = 0;
 				for (ScoreMatch scoreMatch : scoreMatchs) {
 					switch (i) {
 					case 0:
-						scoreMatch.setScore(5);
+						scoreMatch.setScoreRank(5);
 						break;
 					case 1:
-						scoreMatch.setScore(3);
+						scoreMatch.setScoreRank(3);
 						break;
 					case 2:
-						scoreMatch.setScore(2);
+						scoreMatch.setScoreRank(2);
 						break;
 					case 3:
-						scoreMatch.setScore(0);
+						scoreMatch.setScoreRank(0);
 						break;
 
 					default:
@@ -187,7 +192,42 @@ public class MatchDaoImpl {
 					challenge.getScores().add(scoreMatch);
 					i++;
 				}
-			} else if (scoreMatchs.size() == 8) {
+			} else if (scoreMatchs.size() <= 8) {
+
+				int i = 0;
+				for (ScoreMatch scoreMatch : scoreMatchs) {
+					switch (i) {
+					case 0:
+						scoreMatch.setScoreRank(10);
+						break;
+					case 1:
+						scoreMatch.setScoreRank(8);
+						break;
+					case 2:
+						scoreMatch.setScoreRank(6);
+						break;
+					case 3:
+						scoreMatch.setScoreRank(5);
+						break;
+					case 4:
+						scoreMatch.setScoreRank(4);
+						break;
+					case 5:
+						scoreMatch.setScoreRank(3);
+						break;
+					case 6:
+						scoreMatch.setScoreRank(1);
+						break;
+					case 7:
+						scoreMatch.setScoreRank(0);
+						break;
+
+					default:
+						break;
+					}
+					challenge.getScores().add(scoreMatch);
+					i++;
+				}
 
 			} else {
 				LOG.error("Not a recognized size of match");
@@ -209,21 +249,20 @@ public class MatchDaoImpl {
 	public Match reactivateMatch(String matchToActivateId, String matchToCloseId) {
 		Match match = matchRepository.findOne(matchToActivateId);
 		String challengeId = match.getChallengeId();
-		LOG.debug("Activating match "+matchToActivateId); 
+		LOG.debug("Activating match " + matchToActivateId);
 		match.setClose(false);
 		matchRepository.save(match);
 		if (matchToCloseId != null) {
-			LOG.debug("Closing match "+matchToCloseId); 
+			LOG.debug("Closing match " + matchToCloseId);
 			match = matchRepository.findOne(matchToCloseId);
-			LOG.debug("Closing match "+matchToCloseId); 
+			LOG.debug("Closing match " + matchToCloseId);
 			match.setClose(true);
 			matchRepository.save(match);
-		}
-		else{
-			LOG.debug("There is no match to close"); 
+		} else {
+			LOG.debug("There is no match to close");
 		}
 		match = findOpenMatchForChallengeId(challengeId);
-	return match;
+		return match;
 	}
 
 	/**
@@ -233,9 +272,12 @@ public class MatchDaoImpl {
 	 */
 	public Match closeMatch(String matchId) {
 		Match match = matchRepository.findOne(matchId);
-		match.setClose(true);
-		matchRepository.save(match);
-		return findOpenMatchForChallengeId(match.getChallengeId());
+		if (match != null) {
+			match.setClose(true);
+			matchRepository.save(match);
+			return findOpenMatchForChallengeId(match.getChallengeId());
+		}
+		return null;
 	}
 
 	/**

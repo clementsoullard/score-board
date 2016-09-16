@@ -18,6 +18,8 @@ public class Match {
 
 	private String challengeId;
 
+	private String tracer;
+
 	private Boolean close;
 
 	public String getIdr() {
@@ -50,6 +52,14 @@ public class Match {
 
 	public void setClose(Boolean close) {
 		this.close = close;
+	}
+
+	public String getTracer() {
+		return tracer;
+	}
+
+	public void setTracer(String tracer) {
+		this.tracer = tracer;
 	}
 
 }

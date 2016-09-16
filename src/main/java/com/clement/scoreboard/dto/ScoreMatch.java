@@ -5,10 +5,11 @@ package com.clement.scoreboard.dto;
  * @author Clement_Soullard
  *
  */
-public class ScoreMatch extends Team{
-	
+public class ScoreMatch extends Team {
 
 	private Integer score;
+	
+	private Integer scoreRank;
 
 	public Integer getScore() {
 		return score;
@@ -18,6 +19,12 @@ public class ScoreMatch extends Team{
 		this.score = score;
 	}
 
+	public Integer getScoreRank() {
+		return scoreRank;
+	}
 
+	public void setScoreRank(Integer scoreRank) {
+		this.scoreRank = scoreRank;
+	}
 
 }

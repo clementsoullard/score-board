@@ -28,7 +28,7 @@ public class ParticipationTest {
 	public void testCloseMatch() {
 		List<Match> matches = matchRepository.findAll();
 		for (Match match : matches) {
-			MatchDaoImpl.closeMatch(match.getIdr());
+			MatchDaoImpl.evaluateResult(match.getIdr());
 		}
 	}
 

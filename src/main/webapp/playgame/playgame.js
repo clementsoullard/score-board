@@ -11,20 +11,38 @@ angular.module('myApp.playgame', ['ngRoute'])
 
 .controller('PlayGameCtrl', ['$scope','$http','$routeParams', function($scope,$http,$routeParams) {
 
+	 /** We use the tracer to identify if a registration has been done on the same computer */
+	 var x = document.cookie;
+	 
+	 if(!x){
+		 var d = new Date();
+	 	d.setTime(d.getTime() + (30*24*60*60*1000));
+	 	var expires = "expires="+ d.toUTCString();
+	 	var rndNumber=Math.floor((Math.random() * 1000000) + 1);
+	 	document.cookie =  "tracer="+rndNumber+" ; " + expires;
+	 	x=document.cookie;
+	 }
+
+	 /** This is to identify the event it is related to */
+
+	 var tracer=x.substring(7);
+
+	
 	var teamsInLice=[];
 	$scope.teamsInLice=teamsInLice;
 	var matchSelected;
 	var matchPassed;
 	/**
-	 * List the teams
+	 * List the teams that are displayed on the right to select for the match
 	 */		
-		 function listTeam(){
-			 $http.get('rest/team').
-		      success(function(data) {
-		        //	console.log(JSON.stringify(data._embedded));
-		            $scope.teams = data._embedded.team;
-		        });
-		 };
+	function listTeam(){
+	 $http.get('rest/team').
+	 success(function(data) {
+	//	console.log(JSON.stringify(data._embedded));
+	     $scope.teams = data._embedded.team;
+	});
+	};
+	
 			/**
 			 * Get the information about the current challenge
 			 */		
@@ -52,6 +70,7 @@ angular.module('myApp.playgame', ['ngRoute'])
 			  */
 			 function saveMatch (){
 				 console.log("Saving a match ");
+				 matchSelected.tracer=tracer;
 				 $http.post('save-match' , matchSelected).
 			      success(function(data) {
 			    	  matchSelected=data;
@@ -185,6 +204,13 @@ angular.module('myApp.playgame', ['ngRoute'])
 		  * This add a team to a match
 		  */
 		 $scope.addTeam = function addTeam(team){
+			 for(var i in teamsInLice){
+				 var teamInLice=teamsInLice[i];
+				 if(team.idr==teamInLice.idr){
+					 console.log("Preventing adding twice the team");
+					 return; 
+				 }
+			 }
 			 console.log("Ajout de la team = "+ team);
 			 teamsInLice.push(team);
 			 console.log("Team en lice= "+teamsInLice);

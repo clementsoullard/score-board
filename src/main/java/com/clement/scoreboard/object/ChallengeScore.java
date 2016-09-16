@@ -8,6 +8,8 @@ public class ChallengeScore {
 
 	private Integer point = 0;
 
+	private Integer pointRank = 0;
+
 	public ChallengeScore(Team team) {
 		this.team = team;
 	}
@@ -26,6 +28,14 @@ public class ChallengeScore {
 
 	public void setTeam(Team team) {
 		this.team = team;
+	}
+
+	public Integer getPointRank() {
+		return pointRank;
+	}
+
+	public void setPointRank(Integer pointRank) {
+		this.pointRank = pointRank;
 	}
 
 }
