@@ -49,15 +49,15 @@
 					<table>
 
 						<tr>
-							<td ng-repeat="team in teamsInLice" class="teamName"
+							<td  ng-repeat="team in teamsInLice" class="teamName cellSizeMatch"
 								ng-style="{'background-color': team.color }">{{team.name}}
 								<a ng-click="removeTeam(team.idr)" class="pull-right"><i>&times;</i></a>
 							</td>
 						</tr>
 
 						<tr>
-							<td ng-repeat="team in teamsInLice"><input type="text"
-								class="scoreDisplay" id="{{team.idr}}" ng-model="team.score"
+							<td class="cellSizeMatch" ng-repeat="team in teamsInLice"><input type="text"
+								class="scoreDisplay" id="{{team.idr}}" style="width:100% " ng-model="team.score"
 								ng-blur="saveScore()" /></td>
 						</tr>
 

@@ -19,7 +19,6 @@ import com.clement.scoreboard.dto.ScoreMatch;
 import com.clement.scoreboard.dto.Team;
 import com.clement.scoreboard.object.ChallengeScore;
 import com.clement.scoreboard.object.ChallengeScoreLine;
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Collections;
 
 @Repository
 public class MatchDaoImpl {
@@ -43,6 +42,7 @@ public class MatchDaoImpl {
 	 */
 	public List<ChallengeScoreLine> getChallengeSheets() {
 		Map<String, Integer> totalScores = new HashMap<String, Integer>();
+		Map<String, Integer> totalScoreRank = new HashMap<String, Integer>();
 		List<ChallengeScoreLine> matchEntries = new ArrayList<>();
 		List<Challenge> challenges = challengeRepository.findAll();
 		List<Team> teams = teamRepository.findAll();
@@ -57,12 +57,22 @@ public class MatchDaoImpl {
 				challengeScore.setPointRank(scoreRank);
 
 				challengeSheet.addChallengeScore(challengeScore);
+				/** Total des ponts gagnés */
 				Integer totalscore = totalScores.get(team.getIdr());
 				if (totalscore == null) {
 					totalscore = 0;
 				}
 				totalscore += score;
 				totalScores.put(team.getIdr(), totalscore);
+				/** Total des pointsrank */
+
+				Integer totalscoreRank = totalScoreRank.get(team.getIdr());
+				if (totalscoreRank == null) {
+					totalscoreRank = 0;
+				}
+				totalscoreRank += scoreRank;
+				totalScoreRank.put(team.getIdr(), totalscoreRank);
+
 			}
 			matchEntries.add(challengeSheet);
 		}
@@ -78,6 +88,9 @@ public class MatchDaoImpl {
 			ChallengeScore challengeScore = new ChallengeScore(team);
 			Integer score = totalScores.get(team.getIdr());
 			challengeScore.setPoint(score);
+			Integer scoreRank = totalScoreRank.get(team.getIdr());
+			challengeScore.setPointRank(scoreRank);
+
 			challengeScoreLine.addChallengeScore(challengeScore);
 			Integer totalscore = totalScores.get(team.getIdr());
 			if (totalscore == null) {
@@ -154,11 +167,15 @@ public class MatchDaoImpl {
 			 */
 			if (scoreMatchs.size() <= 2) {
 				int i = 0;
+				int previousScore = -1;
 				for (ScoreMatch scoreMatch : scoreMatchs) {
+					if (previousScore == scoreMatch.getScore()) {
+						i--;
+					}
 					switch (i) {
 					case 0:
 						scoreMatch.setScoreRank(5);
-						break;
+									break;
 					case 1:
 						scoreMatch.setScoreRank(0);
 						break;
@@ -167,11 +184,23 @@ public class MatchDaoImpl {
 						break;
 					}
 					challenge.getScores().add(scoreMatch);
+					
+					if (previousScore == scoreMatch.getScore()) {
+						i++;
+					}
+					previousScore = scoreMatch.getScore();
+
 					i++;
 				}
 			} else if (scoreMatchs.size() <= 4) {
 				int i = 0;
+				int previousScore = -1;
+				
 				for (ScoreMatch scoreMatch : scoreMatchs) {
+					if (previousScore == scoreMatch.getScore()) {
+						i--;
+					}
+
 					switch (i) {
 					case 0:
 						scoreMatch.setScoreRank(5);
@@ -190,12 +219,22 @@ public class MatchDaoImpl {
 						break;
 					}
 					challenge.getScores().add(scoreMatch);
+					if (previousScore == scoreMatch.getScore()) {
+						i++;
+					}
+					previousScore = scoreMatch.getScore();
+
 					i++;
 				}
 			} else if (scoreMatchs.size() <= 8) {
-
+				int previousScore = -1;
+				
 				int i = 0;
 				for (ScoreMatch scoreMatch : scoreMatchs) {
+					if (previousScore == scoreMatch.getScore()) {
+						i--;
+					}
+
 					switch (i) {
 					case 0:
 						scoreMatch.setScoreRank(10);
@@ -226,6 +265,11 @@ public class MatchDaoImpl {
 						break;
 					}
 					challenge.getScores().add(scoreMatch);
+					if (previousScore == scoreMatch.getScore()) {
+						i++;
+					}
+					previousScore = scoreMatch.getScore();
+
 					i++;
 				}
 
