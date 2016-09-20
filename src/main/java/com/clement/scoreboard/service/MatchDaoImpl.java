@@ -19,7 +19,6 @@ import com.clement.scoreboard.dto.ScoreMatch;
 import com.clement.scoreboard.dto.Team;
 import com.clement.scoreboard.object.ChallengeScore;
 import com.clement.scoreboard.object.ChallengeScoreLine;
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Collections;
 
 @Repository
 public class MatchDaoImpl {
