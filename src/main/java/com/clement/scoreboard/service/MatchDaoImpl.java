@@ -340,4 +340,52 @@ public class MatchDaoImpl {
 		return match;
 	}
 
+	/**
+	 * This remove the team in the DB.
+	 * 
+	 * @param match
+	 * @return
+	 */
+	public Match removeTeamFromMatch(String matchId, String teamId) {
+		/**
+		 * Removing the team from the match.
+		 */
+		Match match = matchRepository.findOne(matchId);
+		ScoreMatch toRemove = null;
+		List<ScoreMatch> scoreMatchs = match.getScores();
+		if (scoreMatchs != null) {
+			for (ScoreMatch scoreMatch : scoreMatchs) {
+				if (scoreMatch.getIdr().equals(teamId)) {
+					toRemove = scoreMatch;
+				}
+			}
+		}
+		if (toRemove != null) {
+			match.getScores().remove(toRemove);
+			matchRepository.save(match);
+		}
+		/**
+		 * Removing from the challenges.
+		 */
+		toRemove = null;
+		List<Challenge> challenges = challengeRepository.findAll();
+
+		for (Challenge challenge : challenges) {
+			scoreMatchs = challenge.getScores();
+			if (scoreMatchs != null) {
+				for (ScoreMatch scoreMatch : scoreMatchs) {
+					if (scoreMatch.getIdr().equals(teamId)) {
+						toRemove = scoreMatch;
+					}
+				}
+			}
+			if (toRemove != null) {
+				challenge.getScores().remove(toRemove);
+				challengeRepository.save(challenge);
+
+			}
+		}
+		return match;
+	}
+
 }

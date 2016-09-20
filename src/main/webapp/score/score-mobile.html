@@ -1,18 +1,17 @@
-<p style="text-align: center;"><img  src="img/infy-play-score.png"></p>
 <div class="mainScoreBoard">
 <table>
 <thead>
 <tr>
-		<td class="cellSize">
+		<td >
 		</td>
-		<td  class="cellSize  teamName" ng-repeat="team in teams" ng-style="{'background-color': team.color }">		
+		<td  class="cellSize teamNameMobile" ng-repeat="team in teams" ng-style="{'background-color': team.color }">		
     	{{team.name}}
 		</td>
 </tr>
 </thead>
 <tbody ng-repeat="challengeScore in challengesScore">
 <tr>
-	<th  class="cellSize gameName">	
+	<th  >	
 
 	<a ng-if="!challengeScore.total" href="#!/playgame/challenge/{{challengeScore.challenge.idr}}">	
     {{challengeScore.challenge.name}}
@@ -23,14 +22,14 @@
     {{challengeScore.challenge.name}}
     </span>
 	</th>
-
-	<td  ng-if="!challengeScore.total" class="cellSize scoreDisplay" ng-repeat="challengeScore1 in challengeScore.challengeScores">		
+<!-- 
+	Corps du tableau
+ -->
+	<td   ng-if="!challengeScore.total" class="scoreDisplayMobile cellSize" ng-repeat="challengeScore1 in challengeScore.challengeScores">		
      {{challengeScore1.pointRank}}
-	<span class="scoreDisplayPoint">({{challengeScore1.point}})
-	 </span>
 	</td>	
 
-	<td  ng-if="challengeScore.total"  class="cellSize scoreDisplay totalLine" ng-repeat="challengeScore1 in challengeScore.challengeScores">		
+	<td ng-if="challengeScore.total"  class="scoreDisplayMobile totalLineMobile cellSize" ng-repeat="challengeScore1 in challengeScore.challengeScores">		
      <div ng-style="{'background-color': challengeScore1.color}">
      {{challengeScore1.pointRank}}
    

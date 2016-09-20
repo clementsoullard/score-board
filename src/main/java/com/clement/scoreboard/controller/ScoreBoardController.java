@@ -101,6 +101,19 @@ public class ScoreBoardController {
 	 * @return
 	 * @throws Exception
 	 */
+	@RequestMapping("/remove-team")
+	public void removeTeam(@RequestParam("teamId") String teamId, @RequestParam("matchId") String matchId)
+			throws Exception {
+		LOG.debug("Removing team " + teamId + " from " + matchId);
+		matchDaoImpl.removeTeamFromMatch(matchId, teamId);
+	}
+
+	/**
+	 * 
+	 * @param challengeId
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping("/reactivate-match")
 	public Match reactivateMatch(@RequestParam("idReactivate") String matchIdToReactivate,
 			@RequestParam(required = false, name = "idClose") String matchIdToClose) throws Exception {

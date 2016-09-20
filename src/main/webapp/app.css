@@ -25,13 +25,22 @@
 	border-top-style: solid;
 	border-top-witdh: 10px;
 }
+.totalLineMobile{
+	border-top-style: solid;
+	border-top-witdh: 10px;
+}
 .teamName {
   font-size: 20pt;
   font-weight: bold;
- text-align: center;
- 	border-bottom-style: solid;
-border-bottom-witdh: 10px;
-
+  text-align: center;
+  border-bottom-style: solid;
+ border-bottom-witdh: 10px;
+}
+.teamNameMobile {
+  font-weight: bold;
+  text-align: center;
+  border-bottom-style: solid;
+ border-bottom-witdh: 10px;
 }
 .matchPassed{
 	 border-style: solid;
@@ -48,9 +57,15 @@ text-align: center;
   font-size: 16pt;
   font-weight: bold;
 }
-.scoreDisplay {
+.scoreDisplay {	
   font-size: 25pt;
   text-align: center;
+  font-weight: bold;
+  background-color: white;
+}
+.scoreDisplayMobile {
+	border-left-style:solid;
+	text-align: center;
   font-weight: bold;
   background-color: white;
 }
@@ -63,7 +78,7 @@ color:gray;
 }
 
 .scoreTop {
-  width: 140px;
+  width: 10%;
   display: inline-block;
 }
 

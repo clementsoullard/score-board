@@ -9,6 +9,9 @@ angular.module('myApp', [
   'ng-fusioncharts'
 ]).
 config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
+	
   $locationProvider.hashPrefix('!');
   $routeProvider.otherwise({redirectTo: '/score'});
+  
+  
 }]);

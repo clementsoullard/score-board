@@ -34,45 +34,45 @@
 
 			</div>
 		</div>
-<br>
+		<br>
 		<div class="row">
-			<div class="col-sm-3">
-				<div ng-repeat="team in teams">
-					<a ng-click="addTeam(team)"><span class="tag tag-primary">
-							{{team.name}} </span> </a>
+			<span ng-repeat="team in teams">
+				<a ng-click="addTeam(team)"><span class="tag tag-primary">
+						{{team.name}} </span> </a>| 
+			</span>
+			<br>
+			<div>
+				<div>
+					<form>
+
+						<table>
+
+							<tr>
+								<td ng-repeat="team in teamsInLice"
+									ng-style="{'background-color': team.color }">
+									<div ng-click="removeTeam(team.idr)" class="pull-right"
+										style="vertical-align: top;">&times;</div>
+									<div>{{team.name}}</div>
+								</td>
+							</tr>
+
+							<tr>
+								<td ng-repeat="team in teamsInLice"><input type="text"
+									id="{{team.idr}}" ng-model="team.score" ng-blur="saveScore()" /></td>
+							</tr>
+
+						</table>
+						<br>
+						<div class="form-group row">
+							<input ng-if="teamsInLice.length>1" type="submit"
+								class="btn btn-info col-sm-2" ng-click="closeMatch()"
+								value="End Match" />
+
+						</div>
+
+
+					</form>
 				</div>
-			</div>
-
-			<div class="col-sm-9">
-				<form>
-
-					<table>
-
-						<tr>
-							<td  ng-repeat="team in teamsInLice" class="teamName cellSizeMatch"
-								ng-style="{'background-color': team.color }">
-								<div ng-click="removeTeam(team.idr)" class="pull-right" style="vertical-align:top;">&times;</div>
-							</td>
-						</tr>
-
-						<tr>
-							<td class="cellSizeMatch" ng-repeat="team in teamsInLice"><input type="text"
-								class="scoreDisplay" id="{{team.idr}}" style="width:100% " ng-model="team.score"
-								ng-blur="saveScore()" /></td>
-						</tr>
-
-					</table>
-<br>
-					<div class="form-group row">
-						<span class="col-sm-5"></span> <input ng-if="teamsInLice.length>1" type="submit"
-							class="btn btn-info col-sm-2" ng-click="closeMatch()"
-							value="End Match" />
-			
-					</div>
-
-
-				</form>
 			</div>
 		</div>
 	</div>
-</div>
