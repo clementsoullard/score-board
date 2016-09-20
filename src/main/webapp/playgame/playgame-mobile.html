@@ -46,16 +46,17 @@
 						<table>
 
 							<tr>
-								<td ng-repeat="team in teamsInLice"
+
+								<td ng-repeat="team in teamsInLice" style="max-width: 50px;vertical-align: top;"
 									ng-style="{'background-color': team.color }">
-									<div ng-click="removeTeam(team.idr)" class="pull-right"
-										style="vertical-align: top;">&times;</div>
+									<div ng-click="removeTeam(team.idr)" 
+										style="text-align: right;">&times;</div>
 									<div>{{team.name}}</div>
 								</td>
 							</tr>
 
 							<tr>
-								<td ng-repeat="team in teamsInLice"><input type="text"
+								<td ng-repeat="team in teamsInLice"><input type="text" size="9"
 									id="{{team.idr}}" ng-model="team.score" ng-blur="saveScore()" /></td>
 							</tr>
 
