@@ -12,7 +12,7 @@ angular.module('myApp.playgame', ['ngRoute'])
 
 	
   $routeProvider.when('/playgame/challenge/:challengeId', {
-    templateUrl: (!_isNotMobile ) ?  'playgame/playgame.html':'playgame/playgame-mobile.html',
+    templateUrl: (_isNotMobile ) ?  'playgame/playgame.html':'playgame/playgame-mobile.html',
     controller: 'PlayGameCtrl'
   });
 }])

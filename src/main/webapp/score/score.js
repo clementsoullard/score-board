@@ -11,7 +11,7 @@ angular.module('myApp.score', ['ngRoute'])
     })();
 
   $routeProvider.when('/score', {
-    templateUrl: (!_isNotMobile )? 'score/score.html':'score/score-mobile.html',
+    templateUrl: (_isNotMobile )? 'score/score.html':'score/score-mobile.html',
     controller: 'scoreCtrl'
   });
 }])
