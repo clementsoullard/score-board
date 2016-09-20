@@ -52,6 +52,7 @@
 							<td  ng-repeat="team in teamsInLice" class="teamName cellSizeMatch"
 								ng-style="{'background-color': team.color }">
 								<div ng-click="removeTeam(team.idr)" class="pull-right" style="vertical-align:top;">&times;</div>
+								<div>{{team.name}} </div>
 							</td>
 						</tr>
 
