@@ -12,17 +12,20 @@
  }
 
 .cellSize {
-  width: 140px;
+  width: 10%;
   border-right-style: solid;
   border-right-witdh: 10px;
 }
-
+.cellSizeMatch {
+  width: 200px;
+  border-right-style: solid;
+  border-right-witdh: 10px;
+}
 .totalLine{
 	border-top-style: solid;
 	border-top-witdh: 10px;
 }
 .teamName {
-  width: 130px;
   font-size: 20pt;
   font-weight: bold;
  text-align: center;
@@ -47,7 +50,13 @@ text-align: center;
 }
 .scoreDisplay {
   font-size: 25pt;
-  width: 130px;
+  text-align: center;
+  font-weight: bold;
+  background-color: white;
+}
+.scoreDisplayPoint {
+  font-size: 18pt;
+color:gray;
   text-align: center;
   font-weight: bold;
   background-color: white;

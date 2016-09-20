@@ -9,7 +9,7 @@ angular.module('myApp.score', ['ngRoute'])
   });
 }])
 
-.controller('scoreCtrl',  ['$scope','$http', function($scope,$http) {
+.controller('scoreCtrl',  ['$scope','$http', '$interval', function($scope,$http,$interval) {
 			
 /**
  * List the entries
@@ -31,5 +31,11 @@ angular.module('myApp.score', ['ngRoute'])
 		 
 		
 		listTeam();		 
-		listChallenge();		 
+		listChallenge();
+		
+		  /**
+		   * This refresh the status every 20 seconds
+		   */
+		   $interval(listChallenge, 20000);
+
 }]);

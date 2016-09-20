@@ -24,12 +24,15 @@
 	</th>
 
 	<td  ng-if="!challengeScore.total" class="cellSize scoreDisplay" ng-repeat="challengeScore1 in challengeScore.challengeScores">		
-     {{challengeScore1.point}}
+     {{challengeScore1.pointRank}}
+	<span class="scoreDisplayPoint">({{challengeScore1.point}})
+	 </span>
 	</td>	
 
 	<td  ng-if="challengeScore.total"  class="cellSize scoreDisplay totalLine" ng-repeat="challengeScore1 in challengeScore.challengeScores">		
      <div ng-style="{'background-color': challengeScore1.color}">
-     {{challengeScore1.point}}
+     {{challengeScore1.pointRank}}
+   
      </div>
 	</td>	
 	

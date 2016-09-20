@@ -73,13 +73,13 @@ angular.module('myApp.playgame', ['ngRoute'])
 				 matchSelected.tracer=tracer;
 				 $http.post('save-match' , matchSelected).
 			      success(function(data) {
-			    	  matchSelected=data;
+			    	  matchSelected.idr=data.idr;
 			    	  teamsInLice=matchSelected.scores;
 					  if(teamsInLice==null){
 						  teamsInLice=[];
 					  }
 					  $scope.teamsInLice=teamsInLice;
-			    	console.log(JSON.stringify(data));
+//			    	console.log(JSON.stringify(data));
 			      });
 			 };
 			 /**
