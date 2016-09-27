@@ -129,6 +129,18 @@ public class MatchDaoImpl {
 	/**
 	 * The list of the matches that are started
 	 * 
+	 * @param challengeId
+	 * @return
+	 */
+	public List<Match> findMatchForChallengeId(String challengeId) {
+		BasicQuery query = new BasicQuery("{challengeId:\"" + challengeId + "\"}");
+		List<Match> matchs = mongoTemplate.find(query, Match.class);
+		return matchs;
+	}
+
+	/**
+	 * The list of the matches that are started
+	 * 
 	 * @param id
 	 * @return
 	 */
@@ -388,4 +400,35 @@ public class MatchDaoImpl {
 		return match;
 	}
 
+	/**
+	 * 
+	 * @param matchId
+	 * @return
+	 */
+	public List<Team> getTeamNotPlayed(String challengeId) {
+		List<Team> teams = teamRepository.findAll();
+		List<Match> matches = findMatchForChallengeId(challengeId);
+		List<String> teamIds = new ArrayList<String>();
+		/**
+		 * 
+		 */
+		for (Match match : matches) {
+			for (Team team : match.getScores()) {
+				teamIds.add(team.getIdr());
+			}
+		}
+		/**
+		 * 
+		 */
+		for (String teamId : teamIds) {
+			Team teamToRemove = null;
+			for (Team team : teams) {
+				if (team.getIdr().equals(teamId)) {
+					teamToRemove = team;
+				}
+			}
+			teams.remove(teamToRemove);
+		}
+		return teams;
+	}
 }

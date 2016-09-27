@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.clement.scoreboard.dto.Match;
+import com.clement.scoreboard.dto.Team;
 import com.clement.scoreboard.object.ChallengeScoreLine;
 import com.clement.scoreboard.service.ChallengeDaoImpl;
 import com.clement.scoreboard.service.MatchDaoImpl;
@@ -118,6 +119,17 @@ public class ScoreBoardController {
 	public Match reactivateMatch(@RequestParam("idReactivate") String matchIdToReactivate,
 			@RequestParam(required = false, name = "idClose") String matchIdToClose) throws Exception {
 		return matchDaoImpl.reactivateMatch(matchIdToReactivate, matchIdToClose);
+	}
+
+	/**
+	 * 
+	 * @param challengeId
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("/team-notplayed")
+	public List<Team> getTeamNotPlayed(@RequestParam("idChallenge") String challengeId) throws Exception {
+		return matchDaoImpl.getTeamNotPlayed(challengeId);
 	}
 
 	/**
