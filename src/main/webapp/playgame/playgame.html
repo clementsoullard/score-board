@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 <div style="padding-top: 70px">
 	<nav class="navbar navbar-default navbar-fixed-top">
 		<div class="container-fluid">
@@ -21,10 +21,11 @@
 
 	<div class="container">
 		<h2>{{challenge.name}}</h2>
-		<div class="row">
-			<div ng-repeat="match1 in matchPassed" class="col-sm-3">
+		<table >
+		<tr>
+			<td ng-repeat="match1 in matchPassed" >
 				<span ng-click="reactivateMatch(match1.idr)"
-					class="pull-right glyphicon glyphicon-retweet"></span>
+					class="pull-right glyphicon glyphicon-retweet" style="margin-left: 10px;margin-right: 10px;"></span>
 				<table class="matchPassed">
 					<tr ng-repeat="score in match1.scores">
 						<td ng-style="{'background-color': score.color }">{{score.name}}</td>
@@ -32,94 +33,15 @@
 					</tr>
 				</table>
 
-
-			</div>
-		</div>
-<br>
+</td>
+	</tr>
+	</table>
+	<br>
 		<div class="row">
 			<div class="col-sm-3">
-				<div ng-repeat="team in teams">
-					<span ng-click="addTeam(team)" class="tag tag-primary">
-							{{team.name}}  </a>
-				</div>
-			</div>
-
-			<div class="col-sm-9">
-				<form>
-
-					<table>
-
-						<tr>
-							<td  ng-repeat="team in teamsInLice" class="teamName cellSizeMatch"
-								ng-style="{'background-color': team.color }">
-								<div ng-click="removeTeam(team.idr)" class="pull-right" style="vertical-align:top;">&times;</div>
-							</td>
-						</tr>
-
-						<tr>
-							<td class="cellSizeMatch" ng-repeat="team in teamsInLice"><input type="text"
-								class="scoreDisplay" id="{{team.idr}}" style="width:100% " ng-model="team.score"
-								ng-blur="saveScore()" /></td>
-						</tr>
-
-					</table>
-<br>
-					<div class="form-group row">
-						<span class="col-sm-5"></span> <input ng-if="teamsInLice.length>1" type="submit"
-							class="btn btn-info col-sm-2" ng-click="closeMatch()"
-							value="End Match" />
-			
-					</div>
-
-
-				</form>
-			</div>
-		</div>
-	</div>
-</div>
-=======
-<div style="padding-top: 70px">
-	<nav class="navbar navbar-default navbar-fixed-top">
-		<div class="container-fluid">
-			<!-- Brand and toggle get grouped for better mobile display -->
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle collapsed"
-					data-toggle="collapse" data-target="#topFixedNavbar1">
-					<span class="sr-only">Toggle navigation</span><span
-						class="icon-bar"></span><span class="icon-bar"></span><span
-						class="icon-bar"></span>
-				</button>
-				<a class="navbar-brand" href="."> Main Score Board</a>
-			</div>
-			<!-- Collect the nav links, forms, and other content for toggling -->
-			<!-- /.navbar-collapse -->
-		</div>
-		<!-- /.container-fluid -->
-	</nav>
-
-
-	<div class="container">
-		<h2>{{challenge.name}}</h2>
-		<div class="row">
-			<div ng-repeat="match1 in matchPassed" class="col-sm-3">
-				<span ng-click="reactivateMatch(match1.idr)"
-					class="pull-right glyphicon glyphicon-retweet"></span>
-				<table class="matchPassed">
-					<tr ng-repeat="score in match1.scores">
-						<td ng-style="{'background-color': score.color }">{{score.name}}</td>
-						<td class="matchPassed-score">{{score.score}}</td>
-					</tr>
-				</table>
-
-
-			</div>
-		</div>
-<br>
-		<div class="row">
-			<div class="col-sm-3">
-				<div ng-repeat="team in teams">
-					<a ng-click="addTeam(team)"><span class="tag tag-primary">
-							{{team.name}} </span> </a>
+				<div ng-repeat="team in teamsSelectable">
+					<span ng-click="addTeam(team)" class="label label-default">
+							{{team.name}} </span> 
 				</div>
 			</div>
 
@@ -143,7 +65,7 @@
 						</tr>
 
 					</table>
-<br>
+					<br>
 					<div class="form-group row">
 						<span class="col-sm-5"></span> <input ng-if="teamsInLice.length>1" type="submit"
 							class="btn btn-info col-sm-2" ng-click="closeMatch()"
@@ -157,4 +79,3 @@
 		</div>
 	</div>
 </div>
->>>>>>> refs/remotes/origin/security_branch

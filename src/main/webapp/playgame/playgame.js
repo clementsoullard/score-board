@@ -37,17 +37,18 @@ angular.module('myApp.playgame', ['ngRoute'])
 
 	
 	var teamsInLice=[];
+	var teamsSelectable=[];
 	$scope.teamsInLice=teamsInLice;
 	var matchSelected;
 	var matchPassed;
 	/**
 	 * List the teams that are displayed on the right to select for the match
 	 */		
-	function listTeam(){
-	 $http.get('rest/team').
+	function listTeam(challengeId){
+	 $http.get('team-notplayed?idChallenge='+challengeId).
 	 success(function(data) {
-	//	console.log(JSON.stringify(data._embedded));
-	     $scope.teams = data._embedded.team;
+		 teamsSelectable=data;
+	     $scope.teamsSelectable = teamsSelectable;
 	});
 	};
 	
@@ -211,7 +212,7 @@ angular.module('myApp.playgame', ['ngRoute'])
 		  */		 
 		 var challengeId=$routeParams.challengeId
 		 console.log("Challenge Id = "+challengeId);
-		 listTeam();	
+		 listTeam(challengeId);	
 		 getChallenge(challengeId);
 
 		 /**
@@ -225,6 +226,23 @@ angular.module('myApp.playgame', ['ngRoute'])
 					 return; 
 				 }
 			 }
+			 // 
+			 var indexToRemove;
+		
+			 for(var i in teamsSelectable){
+				 var teamOn=teamsSelectable[i];
+				 if(team.idr==teamOn.idr){
+					 indexToRemove=i;
+					 console.log("trouvé");
+							 
+				 }
+			 }
+
+			 if(indexToRemove>-1){
+				 $scope.teamsSelectable.splice(indexToRemove,1);
+			}
+		
+			 
 			 console.log("Ajout de la team = "+ team);
 			 teamsInLice.push(team);
 			 console.log("Team en lice= "+teamsInLice);
